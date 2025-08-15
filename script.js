@@ -104,15 +104,16 @@ const handleHover = function (e, opacity) {
   }
 };
 ul.addEventListener('mouseover', handleHover.bind(0.5));
-
 ul.addEventListener('mouseout', handleHover.bind(1));
 /// implementing sticky nav bar
 const stickyNav = function (entries, observer) {
   const entry = entries[0];
-  console.log(entry);
-
   if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+  // entries.forEach(entry => {
+  //   if (!entry.isIntersecting) nav.classList.add('sticky');
+  //   else nav.classList.remove('sticky');
+  // });
 };
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
@@ -123,11 +124,11 @@ headerObserver.observe(header);
 
 //// reveal sections
 const reveal = function (entries, observer) {
-  const [entry] = entries;
-
-  if (!entry.isIntersecting) return;
-  entry.target.classList.remove('section--hidden');
-  observer.unobserve(entry.target);
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.remove('section--hidden');
+    observer.unobserve(entry.target);
+  });
 };
 const secObserver = new IntersectionObserver(reveal, {
   root: null,
