@@ -106,10 +106,16 @@ ul.addEventListener('mouseover', handleHover.bind(0.5));
 
 ul.addEventListener('mouseout', handleHover.bind(1));
 /// implementing sticky nav bar
+const stickyNav = function (entries, observer) {
+  const entry = entries[0];
+  console.log(entry);
 
-const initco = section1.getBoundingClientRect();
-
-window.addEventListener('scroll', function (e) {
-  if (window.scrollY > initco.top) nav.classList.add('sticky');
+  if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${nav.getBoundingClientRect().height}px`,
 });
+headerObserver.observe(header);
