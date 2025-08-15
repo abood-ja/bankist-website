@@ -9,6 +9,8 @@ const section1 = document.getElementById('section--1');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
+const ul = document.querySelector('.nav__links');
+const nav = document.querySelector('.nav');
 ///////////////////////////////////////
 // Modal window
 
@@ -86,4 +88,28 @@ tabsContainer.addEventListener('click', function (e) {
   document
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
+});
+
+///////////////// menu fade animation
+const handleHover = function (e, opacity) {
+  if (e.target.classList.contains('nav__link')) {
+    const hovered = e.target;
+    const siblings = e.target
+      .closest('.nav__links')
+      .querySelectorAll('.nav__link');
+    siblings.forEach(ele => {
+      if (ele != hovered) ele.style.opacity = this;
+    });
+  }
+};
+ul.addEventListener('mouseover', handleHover.bind(0.5));
+
+ul.addEventListener('mouseout', handleHover.bind(1));
+/// implementing sticky nav bar
+
+const initco = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', function (e) {
+  if (window.scrollY > initco.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
 });
