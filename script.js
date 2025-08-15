@@ -12,6 +12,7 @@ const tabsContent = document.querySelectorAll('.operations__content');
 const ul = document.querySelector('.nav__links');
 const nav = document.querySelector('.nav');
 const allSections = document.querySelectorAll('.section');
+const targetImages = document.querySelectorAll('img[data-src]');
 ///////////////////////////////////////
 // Modal window
 
@@ -137,4 +138,25 @@ const secObserver = new IntersectionObserver(reveal, {
 allSections.forEach(sec => {
   sec.classList.add('section--hidden');
   secObserver.observe(sec);
+});
+// lazy loading images
+const loadImg = function (entires, observer) {
+  console.log(entires);
+
+  entires.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.src = entry.target.dataset.src;
+    entry.target.addEventListener('load', function (e) {
+      entry.target.classList.remove('lazy-img');
+    });
+    observer.unobserve(entry.target);
+  });
+};
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '100px',
+});
+targetImages.forEach(img => {
+  imgObserver.observe(img);
 });
